@@ -1,38 +1,252 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="max-w-md mx-auto bg-white rounded-lg shadow-md p-8">
-    <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Login</h2>
+<style>
+    /* Login Page Additional Styles */
+    .login-container {
+        min-height: calc(100vh - 200px);
+    }
     
-    {% if error %}
-    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-        {{ error }}
+    .input-icon {
+        transition: all 0.2s ease;
+    }
+    
+    input:focus + .input-icon {
+        color: #3b82f6;
+    }
+    
+    /* Password toggle button */
+    .password-toggle {
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    
+    .password-toggle:hover {
+        color: #3b82f6;
+    }
+</style>
+
+<div class="login-container min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md mx-auto">
+        <!-- Logo/Brand Section -->
+        <div class="text-center mb-8">
+            <div class="mx-auto h-16 w-16 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg mb-4 transform transition hover:scale-110">
+                <i class="fas fa-store text-white text-3xl"></i>
+            </div>
+            <h2 class="text-3xl font-extrabold text-gray-900">សូមស្វាគមន៍មកកាន់</h2>
+            <p class="mt-2 text-sm text-gray-600">ចូលដើម្បីបន្តការទិញទំនិញ</p>
+        </div>
+
+        <!-- Main Card -->
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+            <!-- Decorative Header -->
+            <div class="h-2 bg-gradient-to-r from-blue-600 to-indigo-600"></div>
+            
+            <div class="px-8 py-8">
+                <!-- Error Message -->
+                {% if error %}
+                <div class="mb-6 bg-red-50 border-l-4 border-red-500 rounded-md p-4 animate-shake">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-exclamation-circle text-red-500"></i>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm text-red-700">{{ error }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- Success Message -->
+                {% if message %}
+                <div class="mb-6 bg-green-50 border-l-4 border-green-500 rounded-md p-4">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-check-circle text-green-500"></i>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm text-green-700">{{ message }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <form action="/login" method="post" class="space-y-6" id="loginForm">
+                    <!-- Username Field -->
+                    <div>
+                        <label for="username" class="block text-sm font-semibold text-gray-700 mb-2">
+                            ឈ្មោះអ្នកប្រើប្រាស់
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-user text-gray-400 text-lg"></i>
+                            </div>
+                            <input type="text" name="username" id="username" required
+                                   class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150 ease-in-out"
+                                   placeholder="បញ្ចូលឈ្មោះអ្នកប្រើប្រាស់">
+                        </div>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div>
+                        <label for="password" class="block text-sm font-semibold text-gray-700 mb-2">
+                            ពាក្យសម្ងាត់
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-lock text-gray-400 text-lg"></i>
+                            </div>
+                            <input type="password" name="password" id="password" required
+                                   class="block w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150 ease-in-out"
+                                   placeholder="បញ្ចូលពាក្យសម្ងាត់">
+                            <button type="button" onclick="togglePassword()" 
+                                    class="absolute inset-y-0 right-0 pr-3 flex items-center password-toggle">
+                                <i class="fas fa-eye text-gray-400" id="passwordToggleIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Remember Me & Forgot Password -->
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="remember" name="remember" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                            <label for="remember" class="ml-2 block text-sm text-gray-700">
+                                ចងចាំខ្ញុំ
+                            </label>
+                        </div>
+                        <div>
+                            <a href="/forgot-password" class="text-sm text-blue-600 hover:text-blue-500 hover:underline">
+                                ភ្លេចពាក្យសម្ងាត់?
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" id="submitBtn"
+                            class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold py-3 px-4 rounded-lg hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transform transition-all duration-150 hover:scale-[1.02] flex items-center justify-center gap-2">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>ចូលប្រើប្រាស់</span>
+                    </button>
+                </form>
+
+                <!-- Divider -->
+                <div class="mt-6">
+                    <div class="relative">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-gray-300"></div>
+                        </div>
+                        <div class="relative flex justify-center text-sm">
+                            <span class="px-2 bg-white text-gray-500">ឬបន្តជាមួយ</span>
+                        </div>
+                    </div>
+
+                    <!-- Social Login Buttons -->
+                    <div class="mt-6 grid grid-cols-2 gap-3">
+                        <button type="button" onclick="socialLogin('google')" 
+                                class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition duration-150">
+                            <i class="fab fa-google text-red-500 text-lg mr-2"></i>
+                            Google
+                        </button>
+                        <button type="button" onclick="socialLogin('github')" 
+                                class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition duration-150">
+                            <i class="fab fa-github text-gray-800 text-lg mr-2"></i>
+                            GitHub
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Sign Up Link -->
+                <div class="mt-6 text-center">
+                    <p class="text-sm text-gray-600">
+                        មិនទាន់មានគណនី?
+                        <a href="/register" class="font-semibold text-blue-600 hover:text-blue-500 hover:underline">
+                            បង្កើតគណនីថ្មី
+                        </a>
+                    </p>
+                </div>
+        </div>
     </div>
-    {% endif %}
-    
-    <form action="/login" method="post">
-        <div class="mb-4">
-            <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Username</label>
-            <input type="text" name="username" id="username" required
-                   class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
-        </div>
-        
-        <div class="mb-6">
-            <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
-            <input type="password" name="password" id="password" required
-                   class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
-        </div>
-        
-        <button type="submit" class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600">
-            Login
-        </button>
-    </form>
-    
-    <p class="mt-4 text-center text-gray-600">
-        Don't have an account? <a href="/register" class="text-blue-500 hover:underline">Register</a>
-    </p>
-    <p class="mt-2 text-center text-sm text-gray-500">
-        Demo Admin: admin / admin123
-    </p>
 </div>
+
+<script>
+    // Toggle password visibility
+    function togglePassword() {
+        const passwordInput = document.getElementById('password');
+        const toggleIcon = document.getElementById('passwordToggleIcon');
+        
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleIcon.classList.remove('fa-eye');
+            toggleIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            toggleIcon.classList.remove('fa-eye-slash');
+            toggleIcon.classList.add('fa-eye');
+        }
+    }
+    
+    // Auto-fill demo credentials
+    function autoFillDemo() {
+        document.getElementById('username').value = 'admin';
+        document.getElementById('password').value = 'admin123';
+        
+        // Optional: Auto-submit
+        if (confirm('តើអ្នកចង់ចូលប្រើប្រាស់ដោយស្វ័យប្រវត្តិទេ?')) {
+            document.getElementById('loginForm').submit();
+        }
+    }
+    
+    // Social login placeholder
+    function socialLogin(provider) {
+        // You can implement OAuth here
+        alert(`សូមរង់ចាំ... កំពុងតភ្ជាប់ជាមួយ ${provider}`);
+        // window.location.href = `/auth/${provider}`;
+    }
+    
+    // Form validation with loading state
+    document.getElementById('loginForm')?.addEventListener('submit', function(e) {
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value;
+        const submitBtn = document.getElementById('submitBtn');
+        
+        if (!username || !password) {
+            e.preventDefault();
+            alert('សូមបំពេញឈ្មោះអ្នកប្រើប្រាស់ និងពាក្យសម្ងាត់');
+            return;
+        }
+        
+        // Show loading state
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span class="ml-2">កំពុងចូល...</span>';
+        
+        // Re-enable after 3 seconds if stuck (fallback)
+        setTimeout(() => {
+            if (submitBtn.disabled) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i><span class="ml-2">ចូលប្រើប្រាស់</span>';
+            }
+        }, 10000);
+    });
+    
+    // Enter key submission
+    document.getElementById('password')?.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+        }
+    });
+    
+    // Animation for error message
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .animate-shake {
+            animation: shake 0.3s ease-in-out;
+        }
+    `;
+    document.head.appendChild(style);
+</script>
 {% endblock %}

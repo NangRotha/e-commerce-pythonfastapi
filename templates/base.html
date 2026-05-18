@@ -4,196 +4,519 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}E-Shop | ហាងអនឡាញទំនើប{% endblock %}</title>
+    <title>{% block title %}E-Shop Pro | ហាងអនឡាញទំនើប{% endblock %}</title>
+    
+    <!-- Favicon / Title Icon -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233b82f6'><path d='M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9zm3-4h12V3H6v2z'/><path d='M3 9h18v2H3z'/></svg>">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/1170/1170678.png">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <!-- Google Fonts: Khmer + Inter for Latin -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Khmer:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+Khmer:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
         * {
             font-family: 'Inter', 'Noto Sans Khmer', sans-serif;
         }
         
-        /* Professional Gradient & Shadows */
+        /* Premium Color Palette */
+        :root {
+            --primary: #0f172a;
+            --primary-dark: #020617;
+            --secondary: #3b82f6;
+            --accent: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --light: #f8fafc;
+        }
+        
+        /* Modern Glassmorphism & Gradients */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        
         .hero-gradient {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            position: relative;
+            overflow: hidden;
         }
-        .btn-gradient {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            transition: all 0.3s ease;
+        
+        .hero-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(59,130,246,0.15) 0%, transparent 70%);
+            pointer-events: none;
         }
-        .btn-gradient:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(30,60,114,0.3);
-        }
-        .product-card {
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
         }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .btn-primary:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(59,130,246,0.4);
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
         .product-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 35px rgba(0,0,0,0.1);
+            transform: translateY(-12px);
+            box-shadow: 0 25px 40px -12px rgba(0,0,0,0.25);
         }
+        
+        .product-image {
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+        
         .nav-link {
             position: relative;
+            font-weight: 500;
         }
+        
         .nav-link::after {
             content: '';
             position: absolute;
             width: 0;
             height: 2px;
-            bottom: -4px;
+            bottom: -6px;
             left: 0;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
             transition: width 0.3s ease;
         }
+        
         .nav-link:hover::after {
             width: 100%;
         }
+        
+        .nav-link.active::after {
+            width: 100%;
+        }
+        
         .cart-badge {
             animation: pulse 2s infinite;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
         }
+        
         @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.9; }
         }
+        
         .fade-in {
-            animation: fadeIn 0.5s ease-in;
+            animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0);
+            }
         }
+        
+        /* Premium Status Badges */
         .status-badge {
-            padding: 4px 12px;
-            border-radius: 20px;
+            padding: 6px 14px;
+            border-radius: 100px;
             font-size: 12px;
             font-weight: 600;
+            letter-spacing: 0.3px;
         }
-        .status-pending { background: #FEF3C7; color: #D97706; }
-        .status-paid { background: #DBEAFE; color: #2563EB; }
-        .status-shipped { background: #E0E7FF; color: #4338CA; }
-        .status-delivered { background: #D1FAE5; color: #059669; }
-        /* RTL / Khmer spacing */
-        body {
-            letter-spacing: 0.01em;
+        
+        .status-pending { 
+            background: rgba(245,158,11,0.1); 
+            color: #f59e0b;
+            border: 1px solid rgba(245,158,11,0.2);
         }
-        .khmer-text {
-            font-weight: 500;
+        
+        .status-paid { 
+            background: rgba(59,130,246,0.1); 
+            color: #3b82f6;
+            border: 1px solid rgba(59,130,246,0.2);
+        }
+        
+        .status-shipped { 
+            background: rgba(139,92,246,0.1); 
+            color: #8b5cf6;
+            border: 1px solid rgba(139,92,246,0.2);
+        }
+        
+        .status-delivered { 
+            background: rgba(16,185,129,0.1); 
+            color: #10b981;
+            border: 1px solid rgba(16,185,129,0.2);
+        }
+        
+        /* Premium Input Styles */
+        .premium-input {
+            transition: all 0.3s ease;
+            border: 1.5px solid #e2e8f0;
+        }
+        
+        .premium-input:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+            outline: none;
+        }
+        
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+            border-radius: 10px;
+        }
+        
+        /* Loading Animation */
+        .loading-spinner {
+            border: 2px solid rgba(59,130,246,0.1);
+            border-top-color: var(--secondary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
-<body class="bg-gray-50">
-    <!-- Top Bar with Khmer Announcement -->
-    <div class="bg-gray-900 text-white text-sm py-2">
-        <div class="container mx-auto px-4 flex justify-between items-center">
-            <div class="flex items-center space-x-4">
-                <span><i class="fas fa-truck mr-2"></i>ដឹកជញ្ជូនដោយឥតគិតថ្លៃទូទាំងពិភពលោក</span>
-                <span><i class="fas fa-undo-alt mr-2"></i>ត្រឡប់ក្នុងរយៈពេល 30 ថ្ងៃ</span>
-            </div>
-            <div class="flex items-center space-x-4">
-                <a href="#" class="hover:text-gray-300"><i class="fab fa-facebook"></i></a>
-                <a href="#" class="hover:text-gray-300"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="hover:text-gray-300"><i class="fab fa-instagram"></i></a>
+<body class="bg-gradient-to-br from-gray-50 to-gray-100">
+    <!-- Premium Top Bar - Khmer -->
+    <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white text-sm py-2.5">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center flex-wrap gap-2">
+                <div class="flex items-center space-x-6 flex-wrap gap-2">
+                    <span class="flex items-center">
+                        <i class="fas fa-truck text-blue-400 mr-2"></i>
+                        <span>ដឹកជញ្ជូនដោយឥតគិតថ្លៃទូទាំងពិភពលោក</span>
+                    </span>
+                    <span class="flex items-center">
+                        <i class="fas fa-undo-alt text-blue-400 mr-2"></i>
+                        <span>ត្រឡប់ក្នុងរយៈពេល 30 ថ្ងៃ</span>
+                    </span>
+                    <span class="flex items-center">
+                        <i class="fas fa-shield-alt text-blue-400 mr-2"></i>
+                        <span>ទិញដោយសុវត្ថិភាព 100%</span>
+                    </span>
+                </div>
+                <div class="flex items-center space-x-5">
+                    <a href="#" class="hover:text-blue-400 transition-colors"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="hover:text-blue-400 transition-colors"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="hover:text-blue-400 transition-colors"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="hover:text-blue-400 transition-colors"><i class="fab fa-linkedin-in"></i></a>
+                </div>
             </div>
         </div>
     </div>
     
-    <!-- Main Navigation -->
-    <nav class="bg-white shadow-lg sticky top-0 z-50">
+    <!-- Glassmorphism Navigation -->
+    <nav class="glass-nav sticky top-0 z-50">
         <div class="container mx-auto px-4">
             <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
                 <div class="flex items-center">
-                    <a href="/" class="text-2xl font-bold bg-gradient-to-r from-blue-800 to-indigo-800 bg-clip-text text-transparent">
-                        <i class="fas fa-store mr-2"></i>E-Shop ខ្មែរ
+                    <a href="/" class="group">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center transform transition group-hover:scale-110">
+                                <i class="fas fa-store text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <span class="text-2xl font-black bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
+                                    ENUCK-Shop Pro
+                                </span>
+                                <span class="text-xs text-gray-500 block">ហាងអនឡាញទំនើប</span>
+                            </div>
+                        </div>
                     </a>
                 </div>
-                <div class="hidden md:flex flex-1 max-w-xl mx-8">
+                
+                <!-- Search Bar -->
+                <div class="hidden lg:flex flex-1 max-w-xl mx-8">
                     <div class="relative w-full">
                         <input type="text" placeholder="ស្វែងរកផលិតផល..." 
-                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600">
-                        <button class="absolute right-2 top-2 text-gray-400 hover:text-blue-600">
+                               class="w-full px-5 py-2.5 border border-gray-200 rounded-full premium-input bg-gray-50">
+                        <button class="absolute right-3 top-2.5 text-gray-400 hover:text-blue-600 transition-colors">
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
                 </div>
+                
+                <!-- Navigation Links -->
                 <div class="flex items-center space-x-6">
-                    <a href="/products" class="nav-link text-gray-700 hover:text-blue-700 transition">ទំនិញ</a>
+                    <a href="/products" class="nav-link text-gray-700 hover:text-blue-600 transition">ទំនិញ</a>
+                    
                     {% if request.cookies.get('access_token') %}
                         {% if current_user and current_user.is_admin %}
-                            <a href="/admin" class="nav-link text-gray-700 hover:text-blue-700 transition">
+                            <a href="/admin" class="nav-link text-gray-700 hover:text-blue-600 transition">
                                 <i class="fas fa-chart-line mr-1"></i>ផ្ទាំងគ្រប់គ្រង
                             </a>
                         {% endif %}
-                        <a href="/orders" class="nav-link text-gray-700 hover:text-blue-700 transition">
+                        
+                        <a href="/orders" class="nav-link text-gray-700 hover:text-blue-600 transition">
                             <i class="fas fa-box mr-1"></i>ការបញ្ជាទិញ
                         </a>
-                        <a href="/cart" class="relative">
-                            <i class="fas fa-shopping-cart text-2xl text-gray-700 hover:text-blue-700 transition"></i>
-                            <span class="cart-badge absolute -top-2 -right-3 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+                        
+                        <!-- Cart Icon -->
+                        <a href="/cart" class="relative group">
+                            <div class="relative">
+                                <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center group-hover:bg-blue-50 transition">
+                                    <i class="fas fa-shopping-bag text-gray-600 group-hover:text-blue-600 text-xl transition"></i>
+                                </div>
+                                <span class="cart-badge absolute -top-1 -right-1 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center shadow-lg">0</span>
+                            </div>
                         </a>
+                        
+                        <!-- User Dropdown -->
                         <div class="relative group">
-                            <button class="flex items-center space-x-2 text-gray-700 hover:text-blue-700">
-                                <i class="fas fa-user-circle text-2xl"></i>
-                                <span>{{ current_user.username if current_user else 'គណនី' }}</span>
-                                <i class="fas fa-chevron-down text-sm"></i>
+                            <button class="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-50 transition">
+                                <div class="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center text-white">
+                                    <span class="text-sm font-semibold">{{ (current_user.username[0] if current_user else 'U') | upper }}</span>
+                                </div>
+                                <div class="text-left">
+                                    <div class="text-sm font-semibold text-gray-700">{{ current_user.username if current_user else 'គណនី' }}</div>
+                                    <div class="text-xs text-gray-500">{{ 'អ្នកគ្រប់គ្រង' if current_user.is_admin else 'អតិថិជន' if current_user else '' }}</div>
+                                </div>
+                                <i class="fas fa-chevron-down text-xs text-gray-500 transition-transform group-hover:rotate-180"></i>
                             </button>
-                            <div class="absolute right-0 w-48 bg-white rounded-lg shadow-lg py-2 mt-2 hidden group-hover:block transition z-50">
-                                <a href="/orders" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">ការបញ្ជាទិញរបស់ខ្ញុំ</a>
-                                <a href="/cart" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">កន្ត្រករបស់ខ្ញុំ</a>
-                                <hr class="my-1">
-                                <a href="/logout" class="block px-4 py-2 text-red-600 hover:bg-gray-100">ចាកចេញ</a>
+                            
+                            <div class="absolute right-0 w-64 bg-white rounded-xl shadow-2xl py-2 mt-3 hidden group-hover:block transition-all duration-200 opacity-0 group-hover:opacity-100 transform scale-95 group-hover:scale-100 origin-top">
+                                <div class="px-4 py-3 border-b border-gray-100">
+                                    <p class="text-sm font-semibold text-gray-900">{{ current_user.username }}</p>
+                                    <p class="text-xs text-gray-500">{{ current_user.email }}</p>
+                                </div>
+                                <a href="/profile" class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-gray-50 transition">
+                                    <i class="fas fa-user w-5 text-gray-400"></i>
+                                    <span class="ml-3 text-sm">ប្រវត្តិរូបរបស់ខ្ញុំ</span>
+                                </a>
+                                <a href="/orders" class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-gray-50 transition">
+                                    <i class="fas fa-box w-5 text-gray-400"></i>
+                                    <span class="ml-3 text-sm">ការបញ្ជាទិញរបស់ខ្ញុំ</span>
+                                </a>
+                                <a href="/cart" class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-gray-50 transition">
+                                    <i class="fas fa-shopping-cart w-5 text-gray-400"></i>
+                                    <span class="ml-3 text-sm">កន្ត្រករបស់ខ្ញុំ</span>
+                                </a>
+                                <hr class="my-2 border-gray-100">
+                                <a href="/logout" class="flex items-center px-4 py-2.5 text-red-600 hover:bg-red-50 transition">
+                                    <i class="fas fa-sign-out-alt w-5"></i>
+                                    <span class="ml-3 text-sm">ចាកចេញ</span>
+                                </a>
                             </div>
                         </div>
                     {% else %}
-                        <a href="/login" class="text-gray-700 hover:text-blue-700 transition">ចូល</a>
-                        <a href="/register" class="btn-gradient text-white px-6 py-2 rounded-lg hover:shadow-lg transition">ចុះឈ្មោះ</a>
+                        <a href="/login" class="text-gray-700 hover:text-blue-600 transition font-medium">ចូល</a>
+                        <a href="/register" class="btn-primary text-white px-6 py-2 rounded-full font-semibold shadow-md hover:shadow-xl transition-all">
+                            ចុះឈ្មោះ <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
                     {% endif %}
                 </div>
             </div>
         </div>
     </nav>
 
-    <main class="container mx-auto px-4 py-8 fade-in">
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-10 fade-in">
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="bg-gray-900 text-white mt-20">
-        <div class="container mx-auto px-4 py-12">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div>
-                    <h3 class="text-2xl font-bold mb-4"><i class="fas fa-store mr-2"></i>E-Shop ខ្មែរ</h3>
-                    <p class="text-gray-400">កន្លែងតែមួយគត់របស់អ្នកសម្រាប់ផលិតផលដែលមានគុណភាពក្នុងតម្លៃសមរម្យ។</p>
+    <!-- Premium Footer - Full Khmer Translation -->
+    <footer class="bg-gradient-to-b from-slate-900 to-slate-800 text-white mt-20">
+        <div class="container mx-auto px-4 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
+                <!-- Brand Column -->
+                <div class="lg:col-span-1">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-store text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <span class="text-2xl font-black">E-Shop Pro</span>
+                            <p class="text-xs text-gray-400">គុណភាពខ្ពស់</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 mb-6 leading-relaxed">
+                        កន្លែងតែមួយគត់របស់អ្នកសម្រាប់ផលិតផលដែលមានគុណភាពក្នុងតម្លៃសមរម្យ។
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-slate-700 rounded-full flex items-center justify-center hover:bg-blue-600 transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-slate-700 rounded-full flex items-center justify-center hover:bg-blue-600 transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-slate-700 rounded-full flex items-center justify-center hover:bg-blue-600 transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-slate-700 rounded-full flex items-center justify-center hover:bg-blue-600 transition">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                    </div>
                 </div>
+                
+                <!-- Quick Links - Khmer -->
                 <div>
-                    <h4 class="font-semibold mb-4">តំណភ្ជាប់រហ័ស</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="/products" class="hover:text-white transition">ទំនិញ</a></li>
-                        <li><a href="#" class="hover:text-white transition">អំពីយើង</a></li>
-                        <li><a href="#" class="hover:text-white transition">ទំនាក់ទំនង</a></li>
-                        <li><a href="#" class="hover:text-white transition">សំណួរ</a></li>
+                    <h4 class="font-bold text-lg mb-6 relative inline-block">
+                        តំណភ្ជាប់រហ័ស
+                        <div class="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+                    </h4>
+                    <ul class="space-y-3">
+                        <li><a href="/products" class="text-gray-400 hover:text-white transition flex items-center group"><i class="fas fa-chevron-right text-xs mr-2 group-hover:translate-x-1 transition"></i>ទំនិញ</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition flex items-center group"><i class="fas fa-chevron-right text-xs mr-2 group-hover:translate-x-1 transition"></i>អំពីយើង</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition flex items-center group"><i class="fas fa-chevron-right text-xs mr-2 group-hover:translate-x-1 transition"></i>ទំនាក់ទំនង</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition flex items-center group"><i class="fas fa-chevron-right text-xs mr-2 group-hover:translate-x-1 transition"></i>សំណួរគេសួរញឹកញាប់</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition flex items-center group"><i class="fas fa-chevron-right text-xs mr-2 group-hover:translate-x-1 transition"></i>ប្លុក</a></li>
                     </ul>
                 </div>
+                
+                <!-- Customer Service - Khmer -->
                 <div>
-                    <h4 class="font-semibold mb-4">សេវាកម្មអតិថិជន</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="#" class="hover:text-white transition">គោលការណ៍ត្រឡប់</a></li>
-                        <li><a href="#" class="hover:text-white transition">ព័ត៌មានដឹកជញ្ជូន</a></li>
-                        <li><a href="#" class="hover:text-white transition">លក្ខខណ្ឌ</a></li>
-                        <li><a href="#" class="hover:text-white transition">ភាពឯកជន</a></li>
+                    <h4 class="font-bold text-lg mb-6 relative inline-block">
+                        សេវាកម្មអតិថិជន
+                        <div class="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+                    </h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition flex items-center group"><i class="fas fa-chevron-right text-xs mr-2 group-hover:translate-x-1 transition"></i>គោលការណ៍ត្រឡប់ទំនិញ</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition flex items-center group"><i class="fas fa-chevron-right text-xs mr-2 group-hover:translate-x-1 transition"></i>ព័ត៌មានដឹកជញ្ជូន</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition flex items-center group"><i class="fas fa-chevron-right text-xs mr-2 group-hover:translate-x-1 transition"></i>លក្ខខណ្ឌប្រើប្រាស់</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition flex items-center group"><i class="fas fa-chevron-right text-xs mr-2 group-hover:translate-x-1 transition"></i>គោលការណ៍ឯកជនភាព</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition flex items-center group"><i class="fas fa-chevron-right text-xs mr-2 group-hover:translate-x-1 transition"></i>ការធានាគុណភាព</a></li>
                     </ul>
                 </div>
+                
+                <!-- Contact Info - Khmer -->
                 <div>
-                    <h4 class="font-semibold mb-4">ព្រឹត្តិបត្រ</h4>
-                    <p class="text-gray-400 mb-4">ទទួលបានការបញ្ចុះតម្លៃ 10% លើការបញ្ជាទិញដំបូង!</p>
-                    <div class="flex">
-                        <input type="email" placeholder="អ៊ីមែលរបស់អ្នក" class="flex-1 px-4 py-2 rounded-l-lg text-gray-900">
-                        <button class="bg-blue-700 px-4 py-2 rounded-r-lg hover:bg-blue-800 transition">ចុះឈ្មោះ</button>
+                    <h4 class="font-bold text-lg mb-6 relative inline-block">
+                        ទំនាក់ទំនងយើងខ្ញុំ
+                        <div class="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+                    </h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3 text-gray-400">
+                            <i class="fas fa-map-marker-alt mt-1 text-blue-400"></i>
+                            <span>ភ្នំពេញ, កម្ពុជា</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-gray-400">
+                            <i class="fas fa-phone-alt text-blue-400"></i>
+                            <span>+855 12 345 678</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-gray-400">
+                            <i class="fas fa-envelope text-blue-400"></i>
+                            <span>info@eshop.com</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-gray-400">
+                            <i class="fas fa-clock text-blue-400"></i>
+                            <span>ចន្ទ-សុក្រ: 8AM - 8PM</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Newsletter - Khmer -->
+                <div class="lg:col-span-1">
+                    <h4 class="font-bold text-lg mb-6 relative inline-block">
+                        ព្រឹត្តិបត្រ
+                        <div class="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+                    </h4>
+                    <p class="text-gray-400 mb-4 text-sm">ទទួលបានការបញ្ចុះតម្លៃ 10% លើការបញ្ជាទិញដំបូងរបស់អ្នក!</p>
+                    <div class="flex flex-col gap-3">
+                        <div class="relative">
+                            <i class="fas fa-envelope absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <input type="email" placeholder="អ៊ីមែលរបស់អ្នក" 
+                                   class="w-full pl-12 pr-4 py-3 rounded-xl text-gray-900 premium-input bg-gray-800 text-white placeholder-gray-400 border-gray-700">
+                        </div>
+                        <button class="btn-primary px-6 py-3 rounded-xl font-semibold whitespace-nowrap w-full">
+                            ចុះឈ្មោះ <i class="fas fa-paper-plane ml-2"></i>
+                        </button>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-3">យើងគោរពភាពឯកជនរបស់អ្នក។ អ្នកអាចឈប់ជាវបានគ្រប់ពេល។</p>
+                </div>
+            </div>
+            
+            <!-- Bottom Bar - Khmer -->
+            <div class="border-t border-slate-700 mt-12 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                    <p class="text-gray-400 text-sm">
+                        &copy; 2025 E-Shop Pro. រក្សាសិទ្ធិគ្រប់យ៉ាង។
+                    </p>
+                    
+                    <!-- Payment Methods -->
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs text-gray-500 mr-2">ទទួលយកការទូទាត់តាមរយៈ:</span>
+                        <img src="https://signicat.imgix.net/blog/Visa_Grey.png?crop=focalpoint&domain=signicat.imgix.net&fit=crop&fm=pjpg&fp-x=0.5&fp-y=0.5&h=683&ixlib=php-3.3.1&q=82&usm=20&w=1024&s=d69d674341696e51343707ebea2b60e9" alt="Visa" class="h-6">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" class="h-6">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" class="h-6">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/American_Express_logo_%282018%29.svg" alt="American Express" class="h-6">
+                    </div>
+                    
+                    <!-- Language Selector -->
+                    <div class="flex items-center gap-2">
+                        <button class="px-3 py-1 rounded-lg bg-blue-600 text-white text-sm">ខ្មែរ</button>
+                        <button class="px-3 py-1 rounded-lg text-gray-400 hover:bg-slate-700 transition text-sm">English</button>
                     </div>
                 </div>
             </div>
-            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-                <p>&copy; 2025 E-Shop ខ្មែរ. រក្សាសិទ្ធិគ្រប់យ៉ាង។</p>
+            
+            <!-- Back to Top Button -->
+            <div class="text-center mt-8">
+                <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
+                        class="inline-flex items-center gap-2 text-gray-400 hover:text-white transition text-sm">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>ត្រឡប់ទៅខាងលើ</span>
+                </button>
             </div>
         </div>
     </footer>
@@ -208,15 +531,39 @@
                     badge.textContent = data.count;
                     badge.classList.remove('hidden');
                 } else if (badge) {
+                    badge.textContent = '0';
                     badge.classList.add('hidden');
                 }
             } catch (error) {
                 console.error('Error updating cart count:', error);
             }
         }
+        
         document.addEventListener('DOMContentLoaded', () => {
             if (document.querySelector('.cart-badge')) updateCartCount();
+            
+            // Add smooth fade-in for main content
+            const main = document.querySelector('main');
+            if (main) {
+                main.style.opacity = '0';
+                setTimeout(() => {
+                    main.style.transition = 'opacity 0.5s ease';
+                    main.style.opacity = '1';
+                }, 100);
+            }
         });
+        
+        // Back to top button
+        window.onscroll = function() {
+            const btn = document.querySelector('#backToTop');
+            if (btn) {
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                    btn.style.display = "flex";
+                } else {
+                    btn.style.display = "none";
+                }
+            }
+        };
     </script>
 </body>
 </html>
