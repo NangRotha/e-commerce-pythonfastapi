@@ -1,72 +1,56 @@
+<!-- FILE: templates/index.html -->
 {% extends "base.html" %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="hero-gradient rounded-2xl text-white mb-16 overflow-hidden">
+<!-- Hero Section with Khmer Text -->
+<section class="hero-gradient rounded-2xl text-white mb-16 overflow-hidden shadow-2xl">
     <div class="container mx-auto px-8 py-16">
         <div class="grid md:grid-cols-2 gap-12 items-center">
             <div class="fade-in">
                 <h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-                    Discover Amazing Products at<br>
-                    <span class="text-yellow-300">Best Prices</span>
+                    ស្វែងរកផលិតផលអស្ចារ្យ<br>
+                    <span class="text-yellow-300">ក្នុងតម្លៃល្អបំផុត</span>
                 </h1>
                 <p class="text-xl mb-8 text-gray-100">
-                    Shop the latest trends with exclusive discounts up to 70% off. 
-                    Free shipping on all orders!
+                    ទិញទំនិញតាមនិន្នាការថ្មីៗជាមួយការបញ្ចុះតម្លៃពិសេសរហូតដល់ 70%។
+                    ដឹកជញ្ជូនដោយឥតគិតថ្លៃសម្រាប់ការបញ្ជាទិញទាំងអស់!
                 </p>
                 <div class="flex space-x-4">
-                    <a href="/products" class="bg-white text-purple-600 px-8 py-3 rounded-lg font-semibold hover:shadow-xl transition transform hover:-translate-y-1">
-                        Shop Now
-                        <i class="fas fa-arrow-right ml-2"></i>
+                    <a href="/products" class="bg-white text-blue-800 px-8 py-3 rounded-lg font-semibold hover:shadow-xl transition transform hover:-translate-y-1">
+                        ទិញឥឡូវ <i class="fas fa-arrow-right ml-2"></i>
                     </a>
-                    <a href="#" class="border-2 border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-purple-600 transition">
-                        View Offers
+                    <a href="#" class="border-2 border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-800 transition">
+                        មើលការផ្តល់ជូន
                     </a>
                 </div>
-                
-                <!-- Stats -->
                 <div class="grid grid-cols-3 gap-4 mt-12">
-                    <div>
-                        <div class="text-2xl font-bold">10K+</div>
-                        <div class="text-sm text-gray-200">Happy Customers</div>
-                    </div>
-                    <div>
-                        <div class="text-2xl font-bold">500+</div>
-                        <div class="text-sm text-gray-200">Products</div>
-                    </div>
-                    <div>
-                        <div class="text-2xl font-bold">24/7</div>
-                        <div class="text-sm text-gray-200">Support</div>
-                    </div>
+                    <div><div class="text-2xl font-bold">10K+</div><div class="text-sm text-gray-200">អតិថិជនពេញចិត្ត</div></div>
+                    <div><div class="text-2xl font-bold">500+</div><div class="text-sm text-gray-200">ផលិតផល</div></div>
+                    <div><div class="text-2xl font-bold">24/7</div><div class="text-sm text-gray-200">ជំនួយ</div></div>
                 </div>
             </div>
             <div class="hidden md:block">
-                <img src="https://cdn.pixabay.com/photo/2020/07/14/13/14/shopping-5404913_640.png" 
-                     alt="Shopping" class="w-full animate-bounce">
+                <img src="https://static.vecteezy.com/system/resources/thumbnails/009/418/828/small/shop-marketing-3d-icon-illustration-for-your-website-user-interface-and-presentation-3d-render-illustration-free-png.png" alt="Shopping" class="w-full animate-bounce">
             </div>
         </div>
     </div>
 </section>
 
-<!-- Categories Section -->
+<!-- Categories -->
 <section class="mb-16">
-    <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Shop by Category</h2>
+    <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">ទិញតាមប្រភេទ</h2>
     <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-        <div class="bg-gradient-to-r from-pink-500 to-rose-500 rounded-xl p-6 text-white text-center hover:scale-105 transition cursor-pointer">
-            <i class="fas fa-mobile-alt text-4xl mb-3"></i>
-            <h3 class="font-semibold">Electronics</h3>
+        <div class="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl p-6 text-white text-center hover:scale-105 transition cursor-pointer shadow-md">
+            <i class="fas fa-mobile-alt text-4xl mb-3"></i><h3 class="font-semibold">អេឡិចត្រូនិក</h3>
         </div>
-        <div class="bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl p-6 text-white text-center hover:scale-105 transition cursor-pointer">
-            <i class="fas fa-tshirt text-4xl mb-3"></i>
-            <h3 class="font-semibold">Fashion</h3>
+        <div class="bg-gradient-to-r from-pink-500 to-rose-500 rounded-xl p-6 text-white text-center hover:scale-105 transition cursor-pointer shadow-md">
+            <i class="fas fa-tshirt text-4xl mb-3"></i><h3 class="font-semibold">ម៉ូដ</h3>
         </div>
-        <div class="bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl p-6 text-white text-center hover:scale-105 transition cursor-pointer">
-            <i class="fas fa-home text-4xl mb-3"></i>
-            <h3 class="font-semibold">Home & Living</h3>
+        <div class="bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl p-6 text-white text-center hover:scale-105 transition cursor-pointer shadow-md">
+            <i class="fas fa-home text-4xl mb-3"></i><h3 class="font-semibold">ផ្ទះ និង របៀបរស់នៅ</h3>
         </div>
-        <div class="bg-gradient-to-r from-purple-500 to-indigo-500 rounded-xl p-6 text-white text-center hover:scale-105 transition cursor-pointer">
-            <i class="fas fa-dumbbell text-4xl mb-3"></i>
-            <h3 class="font-semibold">Sports</h3>
+        <div class="bg-gradient-to-r from-purple-500 to-indigo-500 rounded-xl p-6 text-white text-center hover:scale-105 transition cursor-pointer shadow-md">
+            <i class="fas fa-dumbbell text-4xl mb-3"></i><h3 class="font-semibold">កីឡា</h3>
         </div>
     </div>
 </section>
@@ -74,55 +58,30 @@
 <!-- Featured Products -->
 <section class="mb-16">
     <div class="flex justify-between items-center mb-8">
-        <h2 class="text-3xl font-bold text-gray-800">Featured Products</h2>
-        <a href="/products" class="text-purple-600 hover:text-purple-700 font-semibold">
-            View All <i class="fas fa-arrow-right ml-2"></i>
-        </a>
+        <h2 class="text-3xl font-bold text-gray-800">ផលិតផលពិសេស</h2>
+        <a href="/products" class="text-blue-700 hover:text-blue-800 font-semibold">មើលទាំងអស់ <i class="fas fa-arrow-right ml-2"></i></a>
     </div>
-    
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {% for product in products %}
         <div class="product-card bg-white rounded-xl overflow-hidden shadow-lg group">
             <div class="relative overflow-hidden">
-                <img src="{{ product.image_url }}" alt="{{ product.name }}" 
-                     class="w-full h-64 object-cover group-hover:scale-110 transition duration-500">
-                <div class="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                    HOT
-                </div>
+                <img src="{{ product.image_url }}" alt="{{ product.name }}" class="w-full h-64 object-cover group-hover:scale-110 transition duration-500">
+                <div class="absolute top-4 left-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-semibold">ក្តៅ</div>
                 <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition flex items-center justify-center opacity-0 group-hover:opacity-100">
-                    <a href="/product/{{ product.id }}" class="bg-white text-purple-600 px-6 py-2 rounded-lg font-semibold hover:bg-purple-600 hover:text-white transition">
-                        Quick View
-                    </a>
+                    <a href="/product/{{ product.id }}" class="bg-white text-blue-700 px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 hover:text-white transition">មើលរហ័ស</a>
                 </div>
             </div>
             <div class="p-6">
                 <div class="flex items-center mb-2">
-                    <div class="flex text-yellow-400">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <span class="text-gray-500 text-sm ml-2">(128 reviews)</span>
+                    <div class="flex text-yellow-400"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+                    <span class="text-gray-500 text-sm ml-2">(128 យោបល់)</span>
                 </div>
                 <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ product.name }}</h3>
                 <p class="text-gray-600 text-sm mb-3 line-clamp-2">{{ product.description[:80] }}...</p>
                 <div class="flex justify-between items-center">
-                    <div>
-                        <span class="text-2xl font-bold text-purple-600">${{ "%.2f"|format(product.price) }}</span>
-                        {% if product.price > 100 %}
-                        <span class="text-sm text-gray-500 line-through ml-2">${{ "%.2f"|format(product.price * 1.3) }}</span>
-                        {% endif %}
-                    </div>
+                    <div><span class="text-2xl font-bold text-blue-700">${{ "%.2f"|format(product.price) }}</span>{% if product.price > 100 %}<span class="text-sm text-gray-500 line-through ml-2">${{ "%.2f"|format(product.price * 1.3) }}</span>{% endif %}</div>
                     {% if request.cookies.get('access_token') and product.stock > 0 %}
-                    <form action="/cart/add" method="post" class="inline">
-                        <input type="hidden" name="product_id" value="{{ product.id }}">
-                        <input type="hidden" name="quantity" value="1">
-                        <button type="submit" class="bg-purple-600 text-white p-2 rounded-lg hover:bg-purple-700 transition">
-                            <i class="fas fa-shopping-cart"></i>
-                        </button>
-                    </form>
+                    <form action="/cart/add" method="post" class="inline"><input type="hidden" name="product_id" value="{{ product.id }}"><input type="hidden" name="quantity" value="1"><button type="submit" class="bg-blue-700 text-white p-2 rounded-lg hover:bg-blue-800 transition"><i class="fas fa-shopping-cart"></i></button></form>
                     {% endif %}
                 </div>
             </div>
@@ -131,48 +90,25 @@
     </div>
 </section>
 
-<!-- Promo Banner -->
-<section class="bg-gradient-to-r from-indigo-900 to-purple-900 rounded-2xl p-12 mb-16 text-white text-center">
-    <h2 class="text-4xl font-bold mb-4">Summer Sale is Here!</h2>
-    <p class="text-xl mb-6">Get up to 50% off on selected items. Limited time offer!</p>
-    <a href="/products" class="inline-block bg-yellow-400 text-gray-900 px-8 py-3 rounded-lg font-semibold hover:bg-yellow-300 transition">
-        Shop Now <i class="fas fa-gift ml-2"></i>
-    </a>
+<!-- Promo Banner Khmer -->
+<section class="bg-gradient-to-r from-indigo-800 to-purple-800 rounded-2xl p-12 mb-16 text-white text-center shadow-xl">
+    <h2 class="text-4xl font-bold mb-4">ការលក់រដូវក្តៅបានមកដល់ហើយ!</h2>
+    <p class="text-xl mb-6">ទទួលបានការបញ្ចុះតម្លៃរហូតដល់ 50% លើធាតុដែលបានជ្រើសរើស។ ឱកាសកំណត់!</p>
+    <a href="/products" class="inline-block bg-yellow-400 text-gray-900 px-8 py-3 rounded-lg font-semibold hover:bg-yellow-300 transition">ទិញឥឡូវ <i class="fas fa-gift ml-2"></i></a>
 </section>
 
-<!-- Features Section -->
+<!-- Features -->
 <section class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-16">
-    <div class="text-center">
-        <i class="fas fa-truck text-4xl text-purple-600 mb-3"></i>
-        <h3 class="font-semibold text-gray-800 mb-2">Free Shipping</h3>
-        <p class="text-gray-600 text-sm">On orders over $50</p>
-    </div>
-    <div class="text-center">
-        <i class="fas fa-undo-alt text-4xl text-purple-600 mb-3"></i>
-        <h3 class="font-semibold text-gray-800 mb-2">30-Day Returns</h3>
-        <p class="text-gray-600 text-sm">Money back guarantee</p>
-    </div>
-    <div class="text-center">
-        <i class="fas fa-headset text-4xl text-purple-600 mb-3"></i>
-        <h3 class="font-semibold text-gray-800 mb-2">24/7 Support</h3>
-        <p class="text-gray-600 text-sm">Dedicated customer service</p>
-    </div>
-    <div class="text-center">
-        <i class="fas fa-lock text-4xl text-purple-600 mb-3"></i>
-        <h3 class="font-semibold text-gray-800 mb-2">Secure Payment</h3>
-        <p class="text-gray-600 text-sm">100% secure transactions</p>
-    </div>
+    <div class="text-center"><i class="fas fa-truck text-4xl text-blue-700 mb-3"></i><h3 class="font-semibold text-gray-800 mb-2">ដឹកជញ្ជូនឥតគិតថ្លៃ</h3><p class="text-gray-600 text-sm">សម្រាប់ការបញ្ជាទិញលើស $50</p></div>
+    <div class="text-center"><i class="fas fa-undo-alt text-4xl text-blue-700 mb-3"></i><h3 class="font-semibold text-gray-800 mb-2">ត្រឡប់ក្នុង 30 ថ្ងៃ</h3><p class="text-gray-600 text-sm">ធានាយកប្រាក់មកវិញ</p></div>
+    <div class="text-center"><i class="fas fa-headset text-4xl text-blue-700 mb-3"></i><h3 class="font-semibold text-gray-800 mb-2">ជំនួយ 24/7</h3><p class="text-gray-600 text-sm">សេវាកម្មអតិថិជនឧទ្ទិស</p></div>
+    <div class="text-center"><i class="fas fa-lock text-4xl text-blue-700 mb-3"></i><h3 class="font-semibold text-gray-800 mb-2">ការទូទាត់សុវត្ថិភាព</h3><p class="text-gray-600 text-sm">ប្រតិបត្តិការសុវត្ថិភាព 100%</p></div>
 </section>
 
-<!-- Newsletter Section -->
+<!-- Newsletter -->
 <section class="bg-gray-100 rounded-2xl p-12 text-center">
-    <h2 class="text-3xl font-bold text-gray-800 mb-4">Subscribe to Our Newsletter</h2>
-    <p class="text-gray-600 mb-6">Get the latest updates on new products and upcoming sales</p>
-    <div class="max-w-md mx-auto flex gap-4">
-        <input type="email" placeholder="Enter your email" class="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-purple-500">
-        <button class="btn-gradient text-white px-8 py-3 rounded-lg font-semibold">
-            Subscribe
-        </button>
-    </div>
+    <h2 class="text-3xl font-bold text-gray-800 mb-4">ចុះឈ្មោះតាមព្រឹត្តិបត្ររបស់យើង</h2>
+    <p class="text-gray-600 mb-6">ទទួលបានព័ត៌មានចុងក្រោយអំពីផលិតផលថ្មី និងការលក់នាពេលខាងមុខ</p>
+    <div class="max-w-md mx-auto flex gap-4"><input type="email" placeholder="បញ្ចូលអ៊ីមែលរបស់អ្នក" class="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500"><button class="btn-gradient text-white px-8 py-3 rounded-lg font-semibold">ចុះឈ្មោះ</button></div>
 </section>
 {% endblock %}

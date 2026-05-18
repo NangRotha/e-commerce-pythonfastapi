@@ -1,181 +1,42 @@
+<!-- FILE: templates/product_detail.html -->
 {% extends "base.html" %}
 
 {% block content %}
 <div class="bg-white rounded-xl shadow-lg overflow-hidden">
     <div class="grid md:grid-cols-2 gap-8 p-8">
-        <!-- Product Images -->
         <div>
             <div class="relative">
                 <img src="{{ product.image_url }}" alt="{{ product.name }}" class="w-full rounded-xl">
-                <div class="absolute top-4 right-4">
-                    <button class="bg-white rounded-full p-2 shadow-lg hover:bg-gray-100">
-                        <i class="far fa-heart text-2xl text-gray-600"></i>
-                    </button>
-                </div>
+                <div class="absolute top-4 right-4"><button class="bg-white rounded-full p-2 shadow-lg hover:bg-gray-100"><i class="far fa-heart text-2xl text-gray-600"></i></button></div>
             </div>
             <div class="grid grid-cols-4 gap-2 mt-4">
-                <img src="{{ product.image_url }}" class="rounded-lg cursor-pointer border-2 border-purple-500">
-                <img src="{{ product.image_url }}" class="rounded-lg cursor-pointer hover:border-purple-500">
-                <img src="{{ product.image_url }}" class="rounded-lg cursor-pointer hover:border-purple-500">
-                <img src="{{ product.image_url }}" class="rounded-lg cursor-pointer hover:border-purple-500">
+                <img src="{{ product.image_url }}" class="rounded-lg cursor-pointer border-2 border-blue-600">
+                <img src="{{ product.image_url }}" class="rounded-lg cursor-pointer hover:border-blue-500">
+                <img src="{{ product.image_url }}" class="rounded-lg cursor-pointer hover:border-blue-500">
+                <img src="{{ product.image_url }}" class="rounded-lg cursor-pointer hover:border-blue-500">
             </div>
         </div>
-        
-        <!-- Product Info -->
         <div>
-            <div class="flex items-center mb-4">
-                <div class="flex text-yellow-400">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star-half-alt"></i>
-                </div>
-                <span class="text-gray-500 ml-2">4.5 (128 reviews)</span>
-                <span class="text-gray-300 mx-2">|</span>
-                <span class="text-green-600">{{ product.stock }} in stock</span>
-            </div>
-            
+            <div class="flex items-center mb-4"><div class="flex text-yellow-400"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div><span class="text-gray-500 ml-2">4.5 (128 យោបល់)</span><span class="text-gray-300 mx-2">|</span><span class="text-green-600">{{ product.stock }} នៅក្នុងស្តុក</span></div>
             <h1 class="text-3xl font-bold text-gray-800 mb-4">{{ product.name }}</h1>
             <p class="text-gray-600 mb-6">{{ product.description }}</p>
-            
-            <div class="mb-6">
-                <div class="flex items-center">
-                    <span class="text-4xl font-bold text-purple-600">${{ "%.2f"|format(product.price) }}</span>
-                    <span class="text-gray-500 line-through ml-3">${{ "%.2f"|format(product.price * 1.3) }}</span>
-                    <span class="bg-green-100 text-green-600 ml-3 px-2 py-1 rounded text-sm">Save 30%</span>
-                </div>
-            </div>
+            <div class="mb-6"><div class="flex items-center"><span class="text-4xl font-bold text-blue-700">${{ "%.2f"|format(product.price) }}</span><span class="text-gray-500 line-through ml-3">${{ "%.2f"|format(product.price * 1.3) }}</span><span class="bg-green-100 text-green-600 ml-3 px-2 py-1 rounded text-sm">សន្សំ 30%</span></div></div>
             
             {% if request.cookies.get('access_token') and product.stock > 0 %}
             <form action="/cart/add" method="post" class="mb-6">
                 <input type="hidden" name="product_id" value="{{ product.id }}">
-                <div class="flex items-center space-x-4 mb-6">
-                    <div>
-                        <label class="block text-gray-700 mb-2">Quantity</label>
-                        <input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}" 
-                               class="border border-gray-300 rounded-lg px-4 py-2 w-24">
-                    </div>
-                </div>
-                <div class="flex space-x-4">
-                    <button type="submit" class="flex-1 bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition">
-                        <i class="fas fa-shopping-cart mr-2"></i>Add to Cart
-                    </button>
-                    <button type="button" class="flex-1 border-2 border-purple-600 text-purple-600 py-3 rounded-lg font-semibold hover:bg-purple-600 hover:text-white transition">
-                        Buy Now
-                    </button>
-                </div>
+                <div class="flex items-center space-x-4 mb-6"><div><label class="block text-gray-700 mb-2">បរិមាណ</label><input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}" class="border border-gray-300 rounded-lg px-4 py-2 w-24"></div></div>
+                <div class="flex space-x-4"><button type="submit" class="flex-1 bg-blue-700 text-white py-3 rounded-lg font-semibold hover:bg-blue-800 transition"><i class="fas fa-shopping-cart mr-2"></i>បន្ថែមទៅកន្ត្រក</button><button type="button" class="flex-1 border-2 border-blue-700 text-blue-700 py-3 rounded-lg font-semibold hover:bg-blue-700 hover:text-white transition">ទិញឥឡូវ</button></div>
             </form>
             {% elif not request.cookies.get('access_token') %}
-            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                <p class="text-blue-600">Please <a href="/login" class="underline font-semibold">login</a> to purchase this product</p>
-            </div>
-            {% else %}
-            <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-                <p class="text-red-600">Out of Stock</p>
-            </div>
-            {% endif %}
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6"><p class="text-blue-600">សូម <a href="/login" class="underline font-semibold">ចូល</a> ដើម្បីទិញផលិតផលនេះ</p></div>
+            {% else %}<div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6"><p class="text-red-600">អស់ស្តុក</p></div>{% endif %}
             
-            <!-- Product Features -->
-            <div class="border-t pt-6">
-                <h3 class="font-semibold text-gray-800 mb-3">Product Features</h3>
-                <ul class="space-y-2 text-gray-600">
-                    <li><i class="fas fa-check-circle text-green-500 mr-2"></i> Premium quality material</li>
-                    <li><i class="fas fa-check-circle text-green-500 mr-2"></i> 1-year warranty included</li>
-                    <li><i class="fas fa-check-circle text-green-500 mr-2"></i> Free shipping worldwide</li>
-                    <li><i class="fas fa-check-circle text-green-500 mr-2"></i> 30-day money-back guarantee</li>
-                </ul>
-            </div>
-            
-            <!-- Share -->
-            <div class="border-t pt-6 mt-6">
-                <h3 class="font-semibold text-gray-800 mb-3">Share this product</h3>
-                <div class="flex space-x-4">
-                    <a href="#" class="text-blue-600 hover:text-blue-700"><i class="fab fa-facebook fa-2x"></i></a>
-                    <a href="#" class="text-blue-400 hover:text-blue-500"><i class="fab fa-twitter fa-2x"></i></a>
-                    <a href="#" class="text-pink-600 hover:text-pink-700"><i class="fab fa-instagram fa-2x"></i></a>
-                    <a href="#" class="text-green-600 hover:text-green-700"><i class="fab fa-whatsapp fa-2x"></i></a>
-                </div>
-            </div>
+            <div class="border-t pt-6"><h3 class="font-semibold text-gray-800 mb-3">លក្ខណៈពិសេស</h3><ul class="space-y-2 text-gray-600"><li><i class="fas fa-check-circle text-green-500 mr-2"></i> សម្ភារៈគុណភាពបុព្វលាភ</li><li><i class="fas fa-check-circle text-green-500 mr-2"></i> ធានារយៈពេល 1 ឆ្នាំ</li><li><i class="fas fa-check-circle text-green-500 mr-2"></i> ដឹកជញ្ជូនដោយឥតគិតថ្លៃទូទាំងពិភពលោក</li><li><i class="fas fa-check-circle text-green-500 mr-2"></i> ធានាយកប្រាក់មកវិញក្នុងរយៈពេល 30 ថ្ងៃ</li></ul></div>
+            <div class="border-t pt-6 mt-6"><h3 class="font-semibold text-gray-800 mb-3">ចែករំលែក</h3><div class="flex space-x-4"><a href="#" class="text-blue-600 hover:text-blue-700"><i class="fab fa-facebook fa-2x"></i></a><a href="#" class="text-blue-400 hover:text-blue-500"><i class="fab fa-twitter fa-2x"></i></a><a href="#" class="text-pink-600 hover:text-pink-700"><i class="fab fa-instagram fa-2x"></i></a><a href="#" class="text-green-600 hover:text-green-700"><i class="fab fa-whatsapp fa-2x"></i></a></div></div>
         </div>
     </div>
-    
-    <!-- Reviews Section -->
-    <div class="border-t p-8">
-        <h2 class="text-2xl font-bold text-gray-800 mb-6">Customer Reviews</h2>
-        
-        <div class="grid md:grid-cols-2 gap-8">
-            <div>
-                <div class="flex items-center mb-4">
-                    <div class="flex text-yellow-400 text-2xl mr-4">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <span class="text-2xl font-bold">4.5</span>
-                    <span class="text-gray-500 ml-2">out of 5</span>
-                </div>
-                <p class="text-gray-600">Based on 128 reviews</p>
-            </div>
-            
-            <div>
-                <div class="space-y-2">
-                    <div class="flex items-center">
-                        <span class="w-12 text-sm">5 star</span>
-                        <div class="flex-1 bg-gray-200 rounded-full h-2 mx-2">
-                            <div class="bg-yellow-400 rounded-full h-2" style="width: 70%"></div>
-                        </div>
-                        <span class="text-sm">70%</span>
-                    </div>
-                    <div class="flex items-center">
-                        <span class="w-12 text-sm">4 star</span>
-                        <div class="flex-1 bg-gray-200 rounded-full h-2 mx-2">
-                            <div class="bg-yellow-400 rounded-full h-2" style="width: 20%"></div>
-                        </div>
-                        <span class="text-sm">20%</span>
-                    </div>
-                    <div class="flex items-center">
-                        <span class="w-12 text-sm">3 star</span>
-                        <div class="flex-1 bg-gray-200 rounded-full h-2 mx-2">
-                            <div class="bg-yellow-400 rounded-full h-2" style="width: 5%"></div>
-                        </div>
-                        <span class="text-sm">5%</span>
-                    </div>
-                    <div class="flex items-center">
-                        <span class="w-12 text-sm">2 star</span>
-                        <div class="flex-1 bg-gray-200 rounded-full h-2 mx-2">
-                            <div class="bg-yellow-400 rounded-full h-2" style="width: 3%"></div>
-                        </div>
-                        <span class="text-sm">3%</span>
-                    </div>
-                    <div class="flex items-center">
-                        <span class="w-12 text-sm">1 star</span>
-                        <div class="flex-1 bg-gray-200 rounded-full h-2 mx-2">
-                            <div class="bg-yellow-400 rounded-full h-2" style="width: 2%"></div>
-                        </div>
-                        <span class="text-sm">2%</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div class="border-t p-8"><h2 class="text-2xl font-bold text-gray-800 mb-6">ការវាយតម្លៃពីអតិថិជន</h2><div class="grid md:grid-cols-2 gap-8"><div><div class="flex items-center mb-4"><div class="flex text-yellow-400 text-2xl mr-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div><span class="text-2xl font-bold">4.5</span><span class="text-gray-500 ml-2">ក្នុងចំណោម 5</span></div><p class="text-gray-600">ផ្អែកលើការវាយតម្លៃចំនួន 128</p></div><div class="space-y-2"><div class="flex items-center"><span class="w-12 text-sm">5 ផ្កាយ</span><div class="flex-1 bg-gray-200 rounded-full h-2 mx-2"><div class="bg-yellow-400 rounded-full h-2" style="width: 70%"></div></div><span class="text-sm">70%</span></div><div class="flex items-center"><span class="w-12 text-sm">4 ផ្កាយ</span><div class="flex-1 bg-gray-200 rounded-full h-2 mx-2"><div class="bg-yellow-400 rounded-full h-2" style="width: 20%"></div></div><span class="text-sm">20%</span></div><div class="flex items-center"><span class="w-12 text-sm">3 ផ្កាយ</span><div class="flex-1 bg-gray-200 rounded-full h-2 mx-2"><div class="bg-yellow-400 rounded-full h-2" style="width: 5%"></div></div><span class="text-sm">5%</span></div><div class="flex items-center"><span class="w-12 text-sm">2 ផ្កាយ</span><div class="flex-1 bg-gray-200 rounded-full h-2 mx-2"><div class="bg-yellow-400 rounded-full h-2" style="width: 3%"></div></div><span class="text-sm">3%</span></div><div class="flex items-center"><span class="w-12 text-sm">1 ផ្កាយ</span><div class="flex-1 bg-gray-200 rounded-full h-2 mx-2"><div class="bg-yellow-400 rounded-full h-2" style="width: 2%"></div></div><span class="text-sm">2%</span></div></div></div></div>
 </div>
-
-<!-- Related Products -->
-<div class="mt-16">
-    <h2 class="text-2xl font-bold text-gray-800 mb-6">You May Also Like</h2>
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-        {% for i in range(4) %}
-        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-            <img src="https://picsum.photos/300/200?random={{ i+10 }}" class="w-full h-48 object-cover">
-            <div class="p-4">
-                <h3 class="font-semibold">Related Product</h3>
-                <p class="text-purple-600 font-bold mt-2">$99.99</p>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-</div>
+<div class="mt-16"><h2 class="text-2xl font-bold text-gray-800 mb-6">អ្នកក៏អាចចូលចិត្ត</h2><div class="grid grid-cols-1 md:grid-cols-4 gap-6">{% for i in range(4) %}<div class="bg-white rounded-xl shadow-lg overflow-hidden"><img src="https://picsum.photos/300/200?random={{ i+10 }}" class="w-full h-48 object-cover"><div class="p-4"><h3 class="font-semibold">ផលិតផលពាក់ព័ន្ធ</h3><p class="text-blue-700 font-bold mt-2">$99.99</p></div></div>{% endfor %}</div></div>
 {% endblock %}
