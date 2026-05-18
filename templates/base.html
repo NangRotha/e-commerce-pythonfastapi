@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}E-Shop | Modern E-Commerce{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .product-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .btn-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .cart-badge {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Top Bar -->
+    <div class="bg-gray-900 text-white text-sm py-2">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <span><i class="fas fa-truck mr-2"></i>Free Shipping Worldwide</span>
+                <span><i class="fas fa-undo-alt mr-2"></i>30-Day Returns</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="#" class="hover:text-gray-300"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="hover:text-gray-300"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="hover:text-gray-300"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="/" class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
+                        <i class="fas fa-store mr-2"></i>E-Shop
+                    </a>
+                </div>
+                
+                <!-- Search Bar -->
+                <div class="hidden md:flex flex-1 max-w-xl mx-8">
+                    <div class="relative w-full">
+                        <input type="text" placeholder="Search products..." 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500">
+                        <button class="absolute right-2 top-2 text-gray-400 hover:text-purple-500">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Navigation Links -->
+                <div class="flex items-center space-x-6">
+                    <a href="/products" class="nav-link text-gray-700 hover:text-purple-600 transition">Shop</a>
+                    
+                    {% if request.cookies.get('access_token') %}
+                        {% if current_user and current_user.is_admin %}
+                            <a href="/admin" class="nav-link text-gray-700 hover:text-purple-600 transition">
+                                <i class="fas fa-chart-line mr-1"></i>Dashboard
+                            </a>
+                        {% endif %}
+                        <a href="/orders" class="nav-link text-gray-700 hover:text-purple-600 transition">
+                            <i class="fas fa-box mr-1"></i>Orders
+                        </a>
+                        <a href="/cart" class="relative">
+                            <i class="fas fa-shopping-cart text-2xl text-gray-700 hover:text-purple-600 transition"></i>
+                            <span class="cart-badge absolute -top-2 -right-3 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                                0
+                            </span>
+                        </a>
+                        <div class="relative group">
+                            <button class="flex items-center space-x-2 text-gray-700 hover:text-purple-600">
+                                <i class="fas fa-user-circle text-2xl"></i>
+                                <span>{{ current_user.username if current_user else 'Account' }}</span>
+                                <i class="fas fa-chevron-down text-sm"></i>
+                            </button>
+                            <div class="absolute right-0 w-48 bg-white rounded-lg shadow-lg py-2 mt-2 hidden group-hover:block transition">
+                                <a href="/orders" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">My Orders</a>
+                                <a href="/cart" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">My Cart</a>
+                                <hr class="my-1">
+                                <a href="/logout" class="block px-4 py-2 text-red-600 hover:bg-gray-100">Logout</a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <a href="/login" class="text-gray-700 hover:text-purple-600 transition">Login</a>
+                        <a href="/register" class="btn-gradient text-white px-6 py-2 rounded-lg hover:shadow-lg transition">
+                            Sign Up
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8 fade-in">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white mt-20">
+        <div class="container mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">
+                        <i class="fas fa-store mr-2"></i>E-Shop
+                    </h3>
+                    <p class="text-gray-400">Your one-stop destination for premium products at unbeatable prices.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="/products" class="hover:text-white transition">Shop</a></li>
+                        <li><a href="#" class="hover:text-white transition">About Us</a></li>
+                        <li><a href="#" class="hover:text-white transition">Contact</a></li>
+                        <li><a href="#" class="hover:text-white transition">FAQs</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Customer Service</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition">Returns Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition">Shipping Info</a></li>
+                        <li><a href="#" class="hover:text-white transition">Terms & Conditions</a></li>
+                        <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Newsletter</h4>
+                    <p class="text-gray-400 mb-4">Get 10% off your first order!</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="flex-1 px-4 py-2 rounded-l-lg text-gray-900">
+                        <button class="bg-purple-600 px-4 py-2 rounded-r-lg hover:bg-purple-700 transition">
+                            Subscribe
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 E-Shop. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Update cart count
+        async function updateCartCount() {
+            try {
+                const response = await fetch('/api/cart/count');
+                const data = await response.json();
+                const badge = document.querySelector('.cart-badge');
+                if (badge && data.count > 0) {
+                    badge.textContent = data.count;
+                    badge.classList.remove('hidden');
+                } else if (badge) {
+                    badge.classList.add('hidden');
+                }
+            } catch (error) {
+                console.error('Error updating cart count:', error);
+            }
+        }
+        
+        // Initialize cart count on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            if (document.querySelector('.cart-badge')) {
+                updateCartCount();
+            }
+        });
+    </script>
+</body>
+</html>

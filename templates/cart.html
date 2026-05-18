@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="text-3xl font-bold text-gray-800 mb-8">Shopping Cart</h1>
+
+{% if cart_items %}
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+    <table class="w-full">
+        <thead class="bg-gray-50">
+            <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+            {% for item in cart_items %}
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                        <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}" class="h-16 w-16 object-cover rounded">
+                        <div class="ml-4">
+                            <div class="text-sm font-medium text-gray-900">{{ item.product.name }}</div>
+                        </div>
+                    </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    ${{ "%.2f"|format(item.product.price) }}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <form action="/cart/update" method="post" class="flex items-center space-x-2">
+                        <input type="hidden" name="item_id" value="{{ item.id }}">
+                        <input type="number" name="quantity" value="{{ item.quantity }}" min="1" 
+                               class="w-20 border rounded px-2 py-1">
+                        <button type="submit" class="text-blue-500 hover:text-blue-700">Update</button>
+                    </form>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    ${{ "%.2f"|format(item.quantity * item.product.price) }}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <form action="/cart/update" method="post">
+                        <input type="hidden" name="item_id" value="{{ item.id }}">
+                        <input type="hidden" name="quantity" value="0">
+                        <button type="submit" class="text-red-500 hover:text-red-700">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot class="bg-gray-50">
+            <tr>
+                <td colspan="3" class="px-6 py-4 text-right font-bold">Total:</td>
+                <td class="px-6 py-4 text-xl font-bold text-gray-900">${{ "%.2f"|format(total) }}</td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+<div class="mt-8 text-right">
+    <a href="/checkout" class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600">
+        Proceed to Checkout
+    </a>
+</div>
+{% else %}
+<div class="text-center py-12">
+    <i class="fas fa-shopping-cart text-6xl text-gray-400 mb-4"></i>
+    <h2 class="text-2xl font-bold text-gray-800 mb-2">Your cart is empty</h2>
+    <p class="text-gray-600 mb-4">Looks like you haven't added any items to your cart yet.</p>
+    <a href="/products" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">
+        Continue Shopping
+    </a>
+</div>
+{% endif %}
+{% endblock %}
